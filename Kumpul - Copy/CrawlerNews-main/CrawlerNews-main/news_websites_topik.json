@@ -1,0 +1,37 @@
+{
+    "websites": [
+        {
+            "name": "CNN Indonesia",
+            "url": "https://www.cnnindonesia.com/search/?query=",
+            "article_tag": "article",
+            "article_class": "flex-grow",
+            "title_class": "text-cnn_black_light",
+            "date_class": "text-xs text-cnn_black_light3",
+            "content_class": "detail-text text-cnn_black text-sm grow min-w-0",
+            "platform": "cnn",
+            "next_page": "inline-flex items-center justify-center w-[30px] h-[30px]"
+        },
+        {
+            "name": "Detik",
+            "url": "https://www.detik.com/search/searchall?query=",
+            "article_tag": "article",
+            "article_class": "list-content__item",
+            "title_class": "media__title",
+            "date_class": "media__date",
+            "content_class": "detail__body-text itp_bodycontent",
+            "platform": "detik",
+            "next_page": "pagination__item"
+        },
+        {
+            "name": "Antara",
+            "url": "https://www.antaranews.com/search?q=",
+            "article_tag": "div",
+            "article_class": "card__post card__post-list card__post__transition mt-30",
+            "title_class": "post_title post_title_medium",
+            "date_class": "card__post__author-info mb-2",
+            "content_class": "wrap__article-detail-content",
+            "platform": "Antara",
+            "next_page": ""
+        }
+    ]
+}

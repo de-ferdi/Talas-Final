@@ -1,0 +1,272 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ff6f61;
+    padding: 10px 20px;
+    color: white;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.left-section .logo {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.left-section .logo img {
+    width: 50px;
+    height: 50px;
+}
+
+.left-section .contact-us {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.left-section .contact-us a {
+    margin: 0 5px;
+}
+
+.left-section .contact-us img {
+    width: 20px;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.right-section input {
+    padding: 5px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+main {
+    display: flex;
+    padding: 20px;
+}
+
+aside {
+    width: 25%;
+    margin-right: 20px;
+}
+
+aside h2 {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    border-radius: 5px;
+}
+
+aside ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+aside ul li {
+    background-color: #fff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Main Content Area */
+.content {
+    width: 75%;
+    margin: 0;
+}
+
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.carousel-slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+}
+
+.carousel-caption h2 {
+    margin: 0;
+}
+
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 100;
+    border-radius: 50px;
+    
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.selected {
+    background-color: lightpink;
+}
+
+/* News Section */
+.news {
+    display: flex;
+    flex-direction: column;
+}
+
+.news-item {
+    display: flex;  /* Menggunakan Flexbox untuk menata konten dan coverage bar berdampingan */
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+    width: 100%;  /* Mengatur lebar elemen */
+}
+
+.news-image {
+    flex-shrink: 0; /* Mencegah gambar mengecil */
+}
+
+.news-image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.news-content {
+    padding: 15px;
+    flex-grow: 1;  /* Membuat konten berita mengisi ruang yang tersisa */
+    display: flex;
+    flex-direction: column; /* Menjaga konten tetap teratur dalam kolom */
+    justify-content: space-between; /* Agar elemen di dalam konten diatur rapi */
+    width: 70%;  /* Konten berita mengambil 70% dari lebar berita */
+}
+
+.news-content h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.news-content p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Coverage bars container - move to the right of the news content */
+.news-coverage-bars {
+    display: flex;
+    flex-direction: column;  /* Bar ditampilkan dalam kolom */
+    padding: 15px;
+    width: 40%;  /* Coverage bars mengambil 30% dari lebar berita */
+    margin-left: 20px;  /* Memberikan jarak antara konten berita dan coverage bars */
+}
+
+/* Coverage bar styling */
+.coverage-bar {
+    display: flex;
+    width: 100%;  /* Membuat bar sesuai dengan lebar kontainer */
+    height: 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.segment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+.left-segment {
+    background-color: #8B0000; /* Dark red color */
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.right-segment {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #ff6f61;
+    color: #fff;
+    margin-top: 20px;
+}
