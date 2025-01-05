@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TALAS by PukulEnam</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="left-section">
+            <div class="logo">
+                <img src="assets/Logo.png" alt="TALAS Logo">
+                <img src="assets/Title.png" class="title" style="width: 165px; height: 45px; margin-left: 5px;">
+            </div>
+            <div class="contact-us">
+                <a href="https://www.instagram.com/pukulenam.id/"><img src="assets/instagram.png" alt="Instagram"></a>
+                <a href="https://www.whatsapp.com/channel/0029Vacza9qHgZWUh08zyw12"><img src="assets/whatsapp.png"
+                        alt="WhatsApp"></a>
+                <a href="https://www.facebook.com/pukulenam.id"><img src="assets/facebook.png" alt="Facebook"></a>
+                <a href="https://www.linkedin.com/company/pukulenam/"><img src="assets/linkedin.png" alt="LinkedIn"></a>
+            </div>
+        </div>
+        <div class="right-section">
+            <input type="text" id="search-bar" placeholder="Search">
+            <span id="current-date"></span>
+        </div>
+    </header>
+    <main>
+        <aside>
+            <h2>Trending Topics</h2>
+            <ul id="trending-topics">
+            </ul>
+        </aside>
+        <div class="content">
+            <section class="carousel-container">
+                <div class="carousel-slides">
+                    <!-- Slides will be dynamically added here -->
+                </div>
+                <button class="prev" id="prevBtn">&#10094;</button>
+                <button class="next" id="nextBtn">&#10095;</button>
+            </section>
+            <section class="news">
+                <!-- News items will be dynamically added here -->
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; PukulEnam 2024</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function updateDate() {
+                const dateSpan = document.getElementById('current-date');
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                dateSpan.textContent = now.toLocaleDateString('id-ID', options);
+            }
+
+            updateDate();
+
+            let slideIndex = 0;
+            let allNews = [];
+
+            function showSlide(index) {
+                const slides = document.querySelectorAll('.carousel-slide');
+                if (index >= slides.length) {
+                    slideIndex = 0;
+                } else if (index < 0) {
+                    slideIndex = slides.length - 1;
+                } else {
+                    slideIndex = index;
+                }
+
+                const offset = -slideIndex * 100;
+                document.querySelector('.carousel-slides').style.transform = `translateX(${offset}%)`;
+            }
+
+            function moveSlide(step) {
+                const slides = document.querySelectorAll('.carousel-slide');
+                slideIndex = (slideIndex + step + slides.length) % slides.length;
+                showSlide(slideIndex);
+            }
+
+            function displayNews(newsItems) {
+                const newsSection = document.querySelector('.news');
+                newsSection.innerHTML = '';
+
+                newsItems.forEach(newsItem => {
+                    const newsElement = document.createElement('div');
+                    newsElement.className = 'news-item';
+
+                    newsElement.innerHTML = `
+                        <div class="news-image"> 
+                            <img src="${newsItem.image}" alt="News pic" style="width: 100%; height: 150px; margin-top: 5px">
+                        </div>
+                        <div class="news-content">
+                            <h2>${newsItem.title}</h2>
+                            <p>${newsItem.date}</p>
+                            <p>${newsItem.content.substring(0, 100)}...</p> <!-- Menampilkan sebagian konten -->
+                            <a href="${newsItem.link}" target="_blank">Read more</a>
+                        </div>
+                    `;
+
+                    newsSection.appendChild(newsElement);
+                });
+            }
+
+            function displayCarousel(newsItems) {
+                const slidesContainer = document.querySelector('.carousel-slides');
+                slidesContainer.innerHTML = '';
+
+                newsItems.forEach(newsItem => {
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide';
+                    slide.innerHTML = `
+                        <img src="${newsItem.image}" alt="News Image">
+                        <div class="carousel-caption">
+                            <h2>${newsItem.title}</h2>
+                            <p>${newsItem.date}</p>
+                            <a href="${newsItem.link}" target="_blank">Read more</a>
+                        </div>
+                    `;
+                    slidesContainer.appendChild(slide);
+                });
+
+                // Tampilkan slide pertama
+                showSlide(slideIndex);
+
+                // Auto Slide (Opsional)
+                setInterval(() => {
+                    moveSlide(1);
+                }, 5000); // Ganti slide setiap 5 detik
+            }
+
+            // Fetching data from API
+            fetch('http://08e1-202-31-143-98.ngrok-free.app/api/news')
+                .then(response => {
+                    console.log("Response received:", response);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Data fetched:", data);
+                    allNews = data; // Menyimpan semua data berita yang di-fetch
+                    displayCarousel(allNews); // Menampilkan berita di carousel
+                    displayNews(allNews); // Menampilkan daftar berita
+                })
+                .catch(error => console.error('Error fetching news:', error));
+
+            document.getElementById('search-bar').addEventListener('input', function (event) {
+                const query = event.target.value.toLowerCase();
+                const filteredNews = allNews.filter(newsItem =>
+                    newsItem.title.toLowerCase().includes(query) || // Menggunakan 'title' sebagai kriteria pencarian
+                    newsItem.content.toLowerCase().includes(query) || // Menggunakan 'content' sebagai kriteria pencarian
+                    newsItem.date.toLowerCase().includes(query) || // Menggunakan 'date' sebagai kriteria pencarian
+                    newsItem.media_bias.toLowerCase().includes(query) // Menggunakan 'media_bias' sebagai kriteria pencarian
+                );
+                displayNews(filteredNews);
+            });
+
+            fetch('http://08e1-202-31-143-98.ngrok-free.app/api/trending-topics')
+                .then(response => response.json())
+                .then(trendingTopics => {
+                    const trendingTopicsList = document.getElementById('trending-topics');
+                    trendingTopicsList.innerHTML = '';  // Clear any previous list items
+
+                    trendingTopics.forEach(topic => {
+                        const topicElement = document.createElement('li');
+
+                        // Create a button for each trending topic
+                        const button = document.createElement('button');
+                        button.innerText = topic.title;
+                        button.onclick = () => runCrawler(topic.title);  // Set the click event to run the crawler
+
+                        // Append the button to the <li> element
+                        topicElement.appendChild(button);
+
+                        // Append the <li> to the trending topics list
+                        trendingTopicsList.appendChild(topicElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching trending topics:', error));
+            
+                function runCrawler(topic) {
+                    console.log(`Running crawler for topic: ${topic}`);
+                    fetch('/api/crawler/topik', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ topik: topic })
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error('Error:', error));
+                }
+
+            // Event listeners for the buttons
+            document.getElementById('prevBtn').addEventListener('click', () => moveSlide(-1));
+            document.getElementById('nextBtn').addEventListener('click', () => moveSlide(1));
+        });
+    </script>
+</body>
+
+</html>

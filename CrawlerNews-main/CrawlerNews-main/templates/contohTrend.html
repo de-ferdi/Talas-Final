@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Topics</title>
+</head>
+<body>
+    <div>
+        <h1>Trending Topics</h1>
+        <ul>
+            {% for topic in trending_topics %}
+            
+                <li><button onclick="runCrawler('{{ topic }}')">{{ topic }}</button></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function runCrawler(topic) {
+            console.log(`Running crawler for topic: ${topic}`);
+            fetch('/api/crawler/topik', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ topik: topic })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
